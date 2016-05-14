@@ -4,4 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
+    <!--<NumberPicker-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/numberPicker" />-->
+
+    <!--<ImageView-->
+        <!--android:layout_width="@dimen/mood_image_size"-->
+        <!--android:layout_height="@dimen/mood_image_size"-->
+        <!--android:src="@drawable/ic_mood_unknown"-->
+        <!--android:id="@+id/imageView" />-->
+
 </LinearLayout>

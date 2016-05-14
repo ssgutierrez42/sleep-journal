@@ -69,11 +69,11 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/main_data_alertness"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/main_data_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        tools:listitem="@layout/item_sleep_hour" />
+        android:fitsSystemWindows="true" />
+
 
 </LinearLayout>

@@ -1,9 +1,11 @@
-package com.stanford.sleepjournal;
+package com.stanford.sleepjournal.utils;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.stanford.sleepjournal.R;
 
 /**
  * Created by Santiago Gutierrez on 5/8/16.

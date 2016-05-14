@@ -1,8 +1,8 @@
 package com.stanford.sleepjournal;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.CalendarView.OnDateChangeListener;
@@ -10,20 +10,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.stanford.sleepjournal.fragments.FragmentPageAdapter;
+import com.stanford.sleepjournal.utils.ExcelManager;
+
 import java.util.Calendar;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, OnDateChangeListener {
 
     private TextView mDateText;
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mViewPager = (ViewPager) findViewById(R.id.main_data_container);
         mDateText = (TextView) findViewById(R.id.main_data_date);
         assert mDateText != null;
+        assert mViewPager != null;
+        mViewPager.setOffscreenPageLimit(4);
 
         CalendarView calendar = (CalendarView) findViewById(R.id.main_calendar_view);
         assert calendar != null;
@@ -52,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String month = calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.US);
         String date = month + " " + getDayOfMonthSuffix(calendar.get(Calendar.DAY_OF_MONTH)) + ", " + calendar.get(Calendar.YEAR);
         mDateText.setText(date);
+
+        FragmentPageAdapter adapter = new FragmentPageAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(adapter);
     }
 
     private String getDayOfMonthSuffix(final int n) {
@@ -70,7 +80,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.app_bar_save:
-                Toast.makeText(getApplicationContext(), "Save Data", Toast.LENGTH_SHORT).show();
+
+                try {
+                    ExcelManager manager = new ExcelManager(getApplicationContext());
+                    manager.createSheet();
+                    Toast.makeText(getApplicationContext(), "Saving data test successful.", Toast.LENGTH_SHORT).show();
+                } catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Failed saving.", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
         }
     }
