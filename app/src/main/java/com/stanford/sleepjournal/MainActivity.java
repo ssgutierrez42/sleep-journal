@@ -1,16 +1,20 @@
 package com.stanford.sleepjournal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.CalendarView.OnDateChangeListener;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.stanford.sleepjournal.dialogs.DataEditorDialog;
 import com.stanford.sleepjournal.fragments.FragmentPageAdapter;
+import com.stanford.sleepjournal.utils.Day;
 import com.stanford.sleepjournal.utils.ExcelManager;
 
 import java.util.Calendar;
@@ -30,19 +34,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDateText = (TextView) findViewById(R.id.main_data_date);
         assert mDateText != null;
         assert mViewPager != null;
-        mViewPager.setOffscreenPageLimit(4);
+        mViewPager.setOffscreenPageLimit(3);
 
         CalendarView calendar = (CalendarView) findViewById(R.id.main_calendar_view);
         assert calendar != null;
         calendar.setOnDateChangeListener(this);
 
-//        QuoteView quote = (QuoteView) findViewById(R.id.main_quote_view);
-//        assert quote != null;
-//        quote.setQuote("Your life is a reflection of how you sleep, and how you sleep is a reflection of your life.", "Dr. Rafael Pelayo");
-
         ImageView saveButton = (ImageView) findViewById(R.id.app_bar_save);
         assert saveButton != null;
         saveButton.setOnClickListener(this);
+
+        ImageButton editButton = (ImageButton) findViewById(R.id.main_data_edit);
+        assert editButton != null;
+        editButton.setOnClickListener(this);
 
         loadDay(Calendar.getInstance());
     }
@@ -52,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, dayOfMonth);
         loadDay(calendar);
-//        Log.d(MainActivity.class.toString(), month + "/" + dayOfMonth + "/" + year);
     }
 
     private void loadDay(Calendar calendar){
@@ -60,14 +63,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String date = month + " " + getDayOfMonthSuffix(calendar.get(Calendar.DAY_OF_MONTH)) + ", " + calendar.get(Calendar.YEAR);
         mDateText.setText(date);
 
+        Day day = new Day(calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.DAY_OF_MONTH) + "/" + calendar.get(Calendar.YEAR));
+        Application.setSelectedDay(day);
+        day.setFormatDate(date);
+
+        TextView asleep = (TextView) findViewById(R.id.main_data_asleep);
+        TextView awake = (TextView) findViewById(R.id.main_data_awake);
+        TextView slept_for = (TextView) findViewById(R.id.main_data_slept_for);
+        TextView napped_for = (TextView) findViewById(R.id.main_data_napped_for);
+        TextView groggy_for = (TextView) findViewById(R.id.main_data_groggy_for);
+
+        assert asleep != null;
+        assert awake != null;
+        assert slept_for != null;
+        assert napped_for != null;
+        assert groggy_for != null;
+
+        asleep.setText(getValue(day.getAsleep(), R.string.format_asleep));
+        awake.setText(getValue(day.getAwake(), R.string.format_awake));
+        slept_for.setText(getValue(day.getSleptFor(), R.string.format_slept_for));
+        napped_for.setText(getValue(day.getNappedFor(), R.string.format_napped_for));
+        groggy_for.setText(getValue(day.getGroggyFor(), R.string.format_groggy_for));
+
         FragmentPageAdapter adapter = new FragmentPageAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(adapter);
     }
 
+    private String getValue(String source, int stringId){
+        if(source.isEmpty()) source = getString(R.string.tap_to_edit);
+        return String.format(getString(stringId), source);
+    }
+
+    private String getValue(int source, int stringId){
+        if(source == -1) return String.format(getString(stringId), getString(R.string.tap_to_edit));
+        return String.format(getString(stringId), source);
+    }
+
     private String getDayOfMonthSuffix(final int n) {
-        if (n >= 11 && n <= 13) {
-            return n+"th";
-        }
+        if (n >= 11 && n <= 13) return n+"th";
         switch (n % 10) {
             case 1:  return n+"st";
             case 2:  return n+"nd";
@@ -79,8 +112,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.main_data_edit:
+                Intent intent = new Intent(MainActivity.this, DataEditorDialog.class);
+                startActivity(intent);
+                break;
             case R.id.app_bar_save:
-
                 try {
                     ExcelManager manager = new ExcelManager(getApplicationContext());
                     manager.createSheet();

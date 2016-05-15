@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/dialog_info_asleep_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingBottom="@dimen/dialog_info_vertical"
+        android:paddingLeft="@dimen/dialog_info_horizontal"
+        android:paddingRight="@dimen/dialog_info_horizontal"
+        android:paddingTop="@dimen/dialog_info_vertical"
+        android:text="@string/dialog_info_asleep"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/dialog_info_asleep"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:fontFamily="sans-serif"
+        android:paddingBottom="@dimen/dialog_info_vertical"
+        android:paddingLeft="@dimen/dialog_info_horizontal"
+        android:paddingRight="@dimen/dialog_info_horizontal"
+        android:paddingTop="@dimen/dialog_info_vertical"
+        android:text="2:00 AM"
+        android:textAllCaps="true"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/light_red" />
+
+</LinearLayout>

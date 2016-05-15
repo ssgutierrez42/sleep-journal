@@ -4,29 +4,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="horizontal">
+    android:padding="10dp"
+    android:orientation="vertical">
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+    <TextView
+        android:id="@+id/item_sleep_hour_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:textColor="@android:color/white"/>
+
+    <ImageView
+        android:id="@+id/item_sleep_hour_mood"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:src="@drawable/ic_mood_unknown" />
 
     <com.vi.swipenumberpicker.SwipeNumberPicker
-        android:id="@+id/number_picker"
+        android:id="@+id/item_sleep_hour_alertness"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:snp_arrowColor="@android:color/white"
-        app:snp_backgroundColor="@color/colorAccent"
-        app:snp_max="1000"
-        app:snp_min="50"
+        app:snp_backgroundColor="@color/colorPrimaryDark"
+        app:snp_max="6"
+        app:snp_min="0"
         app:snp_numberColor="@android:color/white"
-        app:snp_value="95" />
+        app:snp_value="0" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/item_sleep_hour_alertness_text"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:src="@drawable/ic_mood_unknown" />
+        android:fontFamily="sans-serif"
+        android:textSize="12sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"/>
 
 </LinearLayout>
