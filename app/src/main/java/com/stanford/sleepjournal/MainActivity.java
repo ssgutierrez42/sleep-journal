@@ -10,13 +10,13 @@ import android.widget.CalendarView;
 import android.widget.CalendarView.OnDateChangeListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stanford.sleepjournal.dialogs.DataEditorDialog;
 import com.stanford.sleepjournal.fragments.FragmentPageAdapter;
 import com.stanford.sleepjournal.utils.Day;
-import com.stanford.sleepjournal.utils.Entry;
 import com.stanford.sleepjournal.utils.ExcelManager;
 
 import java.util.Calendar;
@@ -52,6 +52,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         assert editButton != null;
         editButton.setOnClickListener(this);
 
+        TextView madeInStanford = (TextView) findViewById(R.id.main_made_in_stanford);
+        assert madeInStanford != null;
+        madeInStanford.setOnClickListener(this);
+
+        LinearLayout mainDataEdit = (LinearLayout) findViewById(R.id.main_data_tap_edit);
+        assert mainDataEdit != null;
+        mainDataEdit.setOnClickListener(this);
+
         loadDay(Calendar.getInstance());
     }
 
@@ -62,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loadDay(calendar);
     }
 
-    private void loadDay(Calendar calendar){
+    private void loadDay(Calendar calendar) {
         String month = calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.US);
         String date = month + " " + getDayOfMonthSuffix(calendar.get(Calendar.DAY_OF_MONTH)) + ", " + calendar.get(Calendar.YEAR);
         mDateText.setText(date);
@@ -70,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String dateKey = calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.DAY_OF_MONTH) + "/" + calendar.get(Calendar.YEAR);
         List<Day> finds = Day.find(Day.class, "date = ?", dateKey);
         Day day;
-        if(finds.isEmpty()) {
+        if (finds.isEmpty()) {
             day = new Day(dateKey);
             day.setFormatDate(date);
             day.save();
@@ -104,32 +112,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mLastSelectedDay = calendar;
     }
 
-    private String getValue(String source, int stringId){
-        if(source.isEmpty()) source = getString(R.string.tap_to_edit);
+    private String getValue(String source, int stringId) {
+        if (source.isEmpty()) source = getString(R.string.tap_to_edit);
         return String.format(getString(stringId), source);
     }
 
-    private String getValue(int source, int stringId){
-        if(source == -1) return String.format(getString(stringId), getString(R.string.tap_to_edit));
+    private String getValue(int source, int stringId) {
+        if (source == -1)
+            return String.format(getString(stringId), getString(R.string.tap_to_edit));
         return String.format(getString(stringId), source);
     }
 
     private String getDayOfMonthSuffix(final int n) {
-        if (n >= 11 && n <= 13) return n+"th";
+        if (n >= 11 && n <= 13) return n + "th";
         switch (n % 10) {
-            case 1:  return n+"st";
-            case 2:  return n+"nd";
-            case 3:  return n+"rd";
-            default: return n+"th";
+            case 1:
+                return n + "st";
+            case 2:
+                return n + "nd";
+            case 3:
+                return n + "rd";
+            default:
+                return n + "th";
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode){
+        switch (requestCode) {
             case DataEditorDialog.REQUEST_DATE_DATA:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     loadDay(mLastSelectedDay);
                     Log.d(MainActivity.class.toString(), "Returning with a result of OK...");
                 }
@@ -139,17 +152,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.main_data_edit:
+        switch (v.getId()) {
+            case R.id.main_data_edit: case R.id.main_data_tap_edit:
                 Intent intent = new Intent(MainActivity.this, DataEditorDialog.class);
                 startActivityForResult(intent, DataEditorDialog.REQUEST_DATE_DATA);
+                break;
+            case R.id.main_made_in_stanford:
+                Toast.makeText(getApplicationContext(), "More info coming soon", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.app_bar_save:
                 try {
                     ExcelManager manager = new ExcelManager(getApplicationContext());
                     manager.createSheet();
                     Toast.makeText(getApplicationContext(), "Saving data test successful.", Toast.LENGTH_SHORT).show();
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Failed saving.", Toast.LENGTH_SHORT).show();
                 }

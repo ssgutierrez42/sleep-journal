@@ -6,15 +6,15 @@ import com.orm.dsl.Unique;
 /**
  * Created by Santiago Gutierrez on 5/14/16.
  */
-public class Entry extends SugarRecord {
+public class AlertnessEntry extends SugarRecord {
     private String date = "";
     private String hour = "";
 
     private int mood = 0;
 
-    public Entry(){}
+    public AlertnessEntry(){}
 
-    public Entry(String date, String hour){
+    public AlertnessEntry(String date, String hour){
         this.date = date;
         this.hour = hour;
     }

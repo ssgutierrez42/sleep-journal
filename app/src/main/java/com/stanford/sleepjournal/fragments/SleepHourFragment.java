@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.stanford.sleepjournal.Application;
 import com.stanford.sleepjournal.R;
-import com.stanford.sleepjournal.utils.Entry;
+import com.stanford.sleepjournal.utils.AlertnessEntry;
 import com.vi.swipenumberpicker.OnValueChangeListener;
 import com.vi.swipenumberpicker.SwipeNumberPicker;
 
@@ -27,7 +27,7 @@ public class SleepHourFragment extends Fragment implements OnValueChangeListener
     private ImageView mMood;
     private TextView mMoodText;
     private TextView mHourText;
-    private Entry mHourObject = null;
+    private AlertnessEntry mHourObject = null;
 
     public SleepHourFragment() { }
 
@@ -76,9 +76,9 @@ public class SleepHourFragment extends Fragment implements OnValueChangeListener
     }
 
     private void loadHourObject(){
-        List<Entry> finds = Entry.find(Entry.class, "date = ? AND hour = ?", Application.getSelectedDay().getDate(), getArguments().getString("hour"));
+        List<AlertnessEntry> finds = AlertnessEntry.find(AlertnessEntry.class, "date = ? AND hour = ?", Application.getSelectedDay().getDate(), getArguments().getString("hour"));
         if(finds.size() == 0) {
-            mHourObject = new Entry(Application.getSelectedDay().getDate(), getArguments().getString("hour"));
+            mHourObject = new AlertnessEntry(Application.getSelectedDay().getDate(), getArguments().getString("hour"));
         } else {
             mHourObject = finds.get(0);
         }

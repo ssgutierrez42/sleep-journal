@@ -2,7 +2,6 @@ package com.stanford.sleepjournal.dialogs;
 
 import android.app.Activity;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,8 @@ import android.widget.TimePicker;
 
 import com.stanford.sleepjournal.R;
 import com.stanford.sleepjournal.utils.Editable;
+import com.vi.swipenumberpicker.OnValueChangeListener;
+import com.vi.swipenumberpicker.SwipeNumberPicker;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,8 +41,7 @@ public class DialogEditorAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
-        //TODO
-        return Editable.TYPE_TIME;
+        return mValues.get(position).getType();
     }
 
     @Override
@@ -49,27 +49,61 @@ public class DialogEditorAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         View view;
         switch (viewType){
             case Editable.TYPE_TIME:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_info_editor, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_time_editor, parent, false);
                 return new TimeHolder(view);
             default:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_info_editor, parent, false);
-                return new TimeHolder(view);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_number_editor, parent, false);
+                return new NumberHolder(view);
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        if(viewHolder.getItemViewType() == Editable.TYPE_TIME){
-            TimeHolder holder = (TimeHolder) viewHolder;
-            holder.mItem = mValues.get(position);
-            holder.mActionText.setText(holder.mItem.getName());
-            holder.mActionButton.setText(holder.mItem.getDefault());
+        switch (viewHolder.getItemViewType()){
+            case Editable.TYPE_TIME:
+                TimeHolder holder = (TimeHolder) viewHolder;
+                holder.mItem = mValues.get(position);
+                holder.mActionText.setText(holder.mItem.getName());
+                holder.mActionButton.setText(holder.mItem.getDefault());
+                break;
+            case Editable.TYPE_NUMBER:
+                NumberHolder num = (NumberHolder) viewHolder;
+                num.mItem = mValues.get(position);
+                num.mActionText.setText(num.mItem.getName());
+
+                try {
+                    num.mActionPicker.setValue(Integer.parseInt(num.mItem.getDefault()), true);
+                } catch (NumberFormatException e){
+                    e.printStackTrace();
+                    num.mActionPicker.setValue(0, true);
+                }
+                break;
         }
     }
 
     @Override
     public int getItemCount() {
         return mValues.size();
+    }
+
+    public class NumberHolder extends RecyclerView.ViewHolder implements OnValueChangeListener {
+        public final TextView mActionText;
+        public final SwipeNumberPicker mActionPicker;
+        public Editable mItem;
+
+        public NumberHolder(View view) {
+            super(view);
+            mActionText = (TextView) view.findViewById(R.id.dialog_info_text);
+            mActionPicker = (SwipeNumberPicker) view.findViewById(R.id.dialog_info_button);
+            mActionPicker.setOnValueChangeListener(this);
+        }
+
+        @Override
+        public boolean onValueChange(SwipeNumberPicker view, int oldValue, int newValue) {
+            if(newValue > 0) view.setMinValue(1);
+            mListener.itemClicked(mItem, String.valueOf(newValue)); //could check oldval == newval but want to allow zero
+            return true;
+        }
     }
 
     public class TimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -79,8 +113,8 @@ public class DialogEditorAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         public TimeHolder(View view) {
             super(view);
-            mActionText = (TextView) view.findViewById(R.id.dialog_info_asleep_text);
-            mActionButton = (TextView) view.findViewById(R.id.dialog_info_asleep);
+            mActionText = (TextView) view.findViewById(R.id.dialog_info_text);
+            mActionButton = (TextView) view.findViewById(R.id.dialog_info_button);
 
             mActionButton.setOnClickListener(this);
         }

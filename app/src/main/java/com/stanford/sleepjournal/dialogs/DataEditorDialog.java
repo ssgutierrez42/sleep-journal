@@ -19,6 +19,7 @@ import com.stanford.sleepjournal.utils.Editable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.stanford.sleepjournal.utils.Editable.TYPE_NUMBER;
 import static com.stanford.sleepjournal.utils.Editable.TYPE_TIME;
 
 /**
@@ -80,7 +81,6 @@ public class DataEditorDialog extends AppCompatActivity implements DialogEditorA
             @Override
             public void saveAction(String value) {
                 mCurrentDay.setAsleep(value);
-                Log.d(DataEditorDialog.class.toString(), "Set asleep to: " + value);
             }
         }));
 
@@ -98,7 +98,45 @@ public class DataEditorDialog extends AppCompatActivity implements DialogEditorA
             }
         }));
 
+        editableEntries.add(new Editable("Was groggy for (min)", getValue(mCurrentDay.getGroggyFor()), TYPE_NUMBER, new Editable.EditableAction() {
+            @Override
+            public void saveAction(String value) {
+                try {
+                    mCurrentDay.setGroggyFor(Integer.parseInt(value));
+                } catch (NumberFormatException e){
+                    e.printStackTrace();
+                }
+            }
+        }));
+
+        editableEntries.add(new Editable("Napped for (min)", getValue(mCurrentDay.getNappedFor()), TYPE_NUMBER, new Editable.EditableAction() {
+            @Override
+            public void saveAction(String value) {
+                try {
+                    mCurrentDay.setNappedFor(Integer.parseInt(value));
+                } catch (NumberFormatException e){
+                    e.printStackTrace();
+                }
+            }
+        }));
+
+        editableEntries.add(new Editable("Awake @ night for (min)", getValue(mCurrentDay.getTimeAwakeAtNight()), TYPE_NUMBER, new Editable.EditableAction() {
+            @Override
+            public void saveAction(String value) {
+                try {
+                    mCurrentDay.setTimeAwakeAtNight(Integer.parseInt(value));
+                } catch (NumberFormatException e){
+                    e.printStackTrace();
+                }
+            }
+        }));
+
         mAdapter.setData(editableEntries);
+    }
+
+    private String getValue(int val){
+        if(val == -1) return "0";
+        return String.valueOf(val);
     }
 
     private String getValue(String val){

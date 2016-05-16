@@ -10,7 +10,8 @@ import java.util.List;
  */
 public class Day extends SugarRecord {
 
-    @Unique private String date;
+    @Unique
+    private String date;
     private String formatDate = "";
 
     private String inBed = "";
@@ -21,11 +22,27 @@ public class Day extends SugarRecord {
     private int sleptFor = -1; //in min.
     private int nappedFor = -1; //in min.
     private int groggyFor = -1; //in min.
+    private int timeAwakeNight = -1; //in min.
 
-    public Day(){}
+    public Day() {
+    }
 
-    public Day(String date){
+    public Day(String date) {
         this.date = date;
+    }
+
+    @Override
+    public long save() {
+        //here, calculate sleptFor and other similar variables.
+        return super.save();
+    }
+
+    public int getTimeAwakeAtNight() {
+        return timeAwakeNight;
+    }
+
+    public void setTimeAwakeAtNight(int timeAwakeNight) {
+        this.timeAwakeNight = timeAwakeNight;
     }
 
     public String getFormatDate() {
@@ -100,8 +117,8 @@ public class Day extends SugarRecord {
         this.sleptFor = sleptFor;
     }
 
-    public List<Entry> getAlertness() {
-        return Entry.find(Entry.class, "date = ?", date);
+    public List<AlertnessEntry> getAlertness() {
+        return AlertnessEntry.find(AlertnessEntry.class, "date = ?", date);
     }
 
 }
