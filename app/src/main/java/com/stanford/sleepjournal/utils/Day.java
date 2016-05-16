@@ -11,7 +11,7 @@ import java.util.List;
 public class Day extends SugarRecord {
 
     @Unique private String date;
-    private String formatDate;
+    private String formatDate = "";
 
     private String inBed = "";
     private String asleep = "";

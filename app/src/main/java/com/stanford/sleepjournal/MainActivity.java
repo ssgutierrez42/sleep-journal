@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.CalendarView.OnDateChangeListener;
@@ -15,15 +16,18 @@ import android.widget.Toast;
 import com.stanford.sleepjournal.dialogs.DataEditorDialog;
 import com.stanford.sleepjournal.fragments.FragmentPageAdapter;
 import com.stanford.sleepjournal.utils.Day;
+import com.stanford.sleepjournal.utils.Entry;
 import com.stanford.sleepjournal.utils.ExcelManager;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, OnDateChangeListener {
 
     private TextView mDateText;
     private ViewPager mViewPager;
+    private Calendar mLastSelectedDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +67,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String date = month + " " + getDayOfMonthSuffix(calendar.get(Calendar.DAY_OF_MONTH)) + ", " + calendar.get(Calendar.YEAR);
         mDateText.setText(date);
 
-        Day day = new Day(calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.DAY_OF_MONTH) + "/" + calendar.get(Calendar.YEAR));
+        String dateKey = calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.DAY_OF_MONTH) + "/" + calendar.get(Calendar.YEAR);
+        List<Day> finds = Day.find(Day.class, "date = ?", dateKey);
+        Day day;
+        if(finds.isEmpty()) {
+            day = new Day(dateKey);
+            day.setFormatDate(date);
+            day.save();
+        } else {
+            day = finds.get(0);
+        }
+
         Application.setSelectedDay(day);
-        day.setFormatDate(date);
 
         TextView asleep = (TextView) findViewById(R.id.main_data_asleep);
         TextView awake = (TextView) findViewById(R.id.main_data_awake);
@@ -87,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         FragmentPageAdapter adapter = new FragmentPageAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(adapter);
+
+        mLastSelectedDay = calendar;
     }
 
     private String getValue(String source, int stringId){
@@ -110,11 +125,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode){
+            case DataEditorDialog.REQUEST_DATE_DATA:
+                if(resultCode == RESULT_OK){
+                    loadDay(mLastSelectedDay);
+                    Log.d(MainActivity.class.toString(), "Returning with a result of OK...");
+                }
+                break;
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.main_data_edit:
                 Intent intent = new Intent(MainActivity.this, DataEditorDialog.class);
-                startActivity(intent);
+                startActivityForResult(intent, DataEditorDialog.REQUEST_DATE_DATA);
                 break;
             case R.id.app_bar_save:
                 try {

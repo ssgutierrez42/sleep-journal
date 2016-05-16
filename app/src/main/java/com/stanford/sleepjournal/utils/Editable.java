@@ -7,45 +7,58 @@ public class Editable {
 
     public static final int TYPE_TIME = 0;
     public static final int TYPE_NUMBER = 1;
-    public static final int TYPE_NAME = 1;
 
     private String mName;
     private String mDefault;
     private int mType;
+    private EditableAction mAction;
 
-    public Editable(String name, int type){
-        mName = name;
-        mType = type;
-        mDefault = "?";
+    public Editable(String name, String defaultVal, int type){
+        this.mDefault = defaultVal;
+        this.mName = name;
+        this.mType = type;
     }
 
-    public Editable(String name, int type, String defaultFill){
-        mName = name;
-        mType = type;
-        mDefault = defaultFill;
+    public Editable(String name, String defaultVal, int type, EditableAction action){
+        this.mDefault = defaultVal;
+        this.mAction = action;
+        this.mName = name;
+        this.mType = type;
     }
 
-    public String getmDefault() {
-        return mDefault;
+    public String getDefault() {
+        return this.mDefault;
     }
 
-    public void setmDefault(String mDefault) {
-        this.mDefault = mDefault;
+    public void setDefault(String defaultVal) {
+        this.mDefault = defaultVal;
     }
 
-    public int getmType() {
-        return mType;
+    public EditableAction getAction(){
+        return this.mAction;
     }
 
-    public void setmType(int mType) {
+    public void setSaveAction(EditableAction action){
+        this.mAction = action;
+    }
+
+    public int getType() {
+        return this.mType;
+    }
+
+    public void setType(int mType) {
         this.mType = mType;
     }
 
-    public String getmName() {
-        return mName;
+    public String getName() {
+        return this.mName;
     }
 
-    public void setmName(String mName) {
+    public void setName(String mName) {
         this.mName = mName;
+    }
+
+    public interface EditableAction {
+        void saveAction(String value);
     }
 }

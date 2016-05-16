@@ -26,7 +26,6 @@
         android:paddingLeft="@dimen/dialog_info_horizontal"
         android:paddingRight="@dimen/dialog_info_horizontal"
         android:paddingTop="@dimen/dialog_info_vertical"
-        android:text="2:00 AM"
         android:textAllCaps="true"
         android:clickable="true"
         android:background="?attr/selectableItemBackgroundBorderless"
