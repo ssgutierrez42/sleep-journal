@@ -20,6 +20,8 @@ import java.io.IOException;
 public class ExcelManager {
 
     private Context mContext;
+    private String mName = "Annina";
+    private String mTA = "Chloe";
 
     public ExcelManager(Context context){
         this.mContext = context;
@@ -36,7 +38,34 @@ public class ExcelManager {
 
         Row r = s.createRow(0);
         Cell c = r.createCell(0);
-        c.setCellValue("Just a random write at 0, 0");
+        c.setCellValue("Sleep Journal");
+
+        r = s.createRow(2);
+        c = r.createCell(0);
+        c.setCellValue("Psychiatry 135/235");
+
+        r = s.createRow(3);
+        c = r.createCell(0);
+        c.setCellValue("Sleep and Dreams Winter 2016");
+
+        r = s.createRow(4);
+        c = r.createCell(0);
+        c.setCellValue("William C. Dement, M.D, Ph.D.");
+
+        r = s.createRow(6);
+        c = r.createCell(0);
+        c.setCellValue("Name: " + mName);
+
+        r = s.createRow(7);
+        c = r.createCell(0);
+        c.setCellValue("Your TA: " + mTA);
+
+        for (int n = 12; n < 57; n++){
+            Row rn = s.createRow(n);
+            for (int x = 0; x < 11; x++) {
+                Cell cn = rn.createCell(0);
+            }
+        }
 
         wb.write(out);
         out.close();
