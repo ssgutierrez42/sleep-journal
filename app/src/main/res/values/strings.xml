@@ -5,10 +5,25 @@
     <string name="format_quote">\"%1$s\"</string>
     <string name="format_awake">Awake: %1$s</string>
     <string name="format_asleep">Asleep: %1$s</string>
+    <string name="format_slept_for">Slept for: %1$s</string>
+    <string name="format_napped_for">Napped for: %1$s</string>
+    <string name="format_groggy_for">Groggy for: %1$s</string>
 
     <string name="tap_to_edit">(tap to edit)</string>
 
     <string name="content_description_about">About this Application</string>
     <string name="content_description_save_data">Save sleep data</string>
     <string name="content_description_graph_day">View Graph for day</string>
+    <string name="content_description_edit_data">Edit Displayed Data</string>
+
+    <string name="mood_1">Very Alert</string>
+    <string name="mood_2">Alert</string>
+    <string name="mood_3">Neutral</string>
+    <string name="mood_4">Sleepy</string>
+    <string name="mood_5">Very Sleepy</string>
+    <string name="mood_6">Asleep</string>
+    <string name="mood_default">Unknown</string>
+    <string name="update">Update</string>
+    <string name="dialog_info_asleep">Asleep:</string>
+    <string name="dialog_info_awake">Awake</string>
 </resources>
