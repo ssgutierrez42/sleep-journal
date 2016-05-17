@@ -1,5 +1,7 @@
 package com.stanford.sleepjournal;
 
+import android.content.Intent;
+
 import com.orm.SugarContext;
 import com.stanford.sleepjournal.utils.Day;
 
@@ -14,6 +16,9 @@ public class Application extends android.app.Application {
     public void onCreate() {
         super.onCreate();
         SugarContext.init(getApplicationContext());
+
+        Intent startServiceIntent = new Intent(getApplicationContext(), NotificationService.class);
+        getApplicationContext().startService(startServiceIntent);
     }
 
     @Override

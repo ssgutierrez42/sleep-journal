@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (finds.isEmpty()) {
             day = new Day(dateKey);
             day.setFormatDate(date);
+            day.setDayOfWeek(Day.DAYS[calendar.get(Calendar.DAY_OF_WEEK)-1]);
             day.save();
         } else {
             day = finds.get(0);

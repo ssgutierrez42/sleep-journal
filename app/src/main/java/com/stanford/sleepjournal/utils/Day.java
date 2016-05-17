@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class Day extends SugarRecord {
 
+    public static final String[] DAYS = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+
     @Unique
     private String date;
     private String formatDate = "";
@@ -18,14 +20,14 @@ public class Day extends SugarRecord {
     private String asleep = "";
     private String awake = "";
     private String outOfBed = "";
+    private String dayOfWeek = "";
 
     private int sleptFor = -1; //in min.
     private int nappedFor = -1; //in min.
     private int groggyFor = -1; //in min.
     private int timeAwakeNight = -1; //in min.
 
-    public Day() {
-    }
+    public Day() {}
 
     public Day(String date) {
         this.date = date;
@@ -35,6 +37,14 @@ public class Day extends SugarRecord {
     public long save() {
         //here, calculate sleptFor and other similar variables.
         return super.save();
+    }
+
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
     }
 
     public int getTimeAwakeAtNight() {
