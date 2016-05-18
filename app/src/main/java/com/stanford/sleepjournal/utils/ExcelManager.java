@@ -30,7 +30,6 @@ import java.util.List;
 public class ExcelManager {
 
     private Context mContext;
-    private String mName = "Annina";
     private List<Day> mDays;
 
 
@@ -58,6 +57,7 @@ public class ExcelManager {
         Font f = wb.createFont();
         f.setBoldweight(Font.BOLDWEIGHT_BOLD);
         cs.setFont(f);
+        cs.setAlignment(cs.ALIGN_CENTER);
 
         //basic cell for time just with border
         CellStyle csTime = wb.createCellStyle();
@@ -67,6 +67,7 @@ public class ExcelManager {
         csTime.setBorderTop(csTime.BORDER_THIN);
         DataFormat df = wb.createDataFormat();
         csTime.setDataFormat(df.getFormat("[h]:mm;@"));
+        csTime.setAlignment(CellStyle.ALIGN_RIGHT);
 
         //basic cell for alertness
         CellStyle csAlert = wb.createCellStyle();
@@ -76,7 +77,8 @@ public class ExcelManager {
         csAlert.setBorderTop(csAlert.BORDER_THIN);
         csAlert.setDataFormat(csAlert.getDataFormat());
         DataFormat dfA = wb.createDataFormat();
-        csAlert.setDataFormat(dfA.getFormat("00"));
+        csAlert.setDataFormat(dfA.getFormat("0"));
+        csAlert.setAlignment(csAlert.ALIGN_RIGHT);
 
         //cell style for cells that are blue text, bold and grey background
         CellStyle csb = wb.createCellStyle();
@@ -112,9 +114,9 @@ public class ExcelManager {
         col = row.createCell(0);
         col.setCellValue("Sleep Journal");
 
-        row = s.getRow(6);
-        col = row.createCell(0);
-        col.setCellValue("Name: " + mName);
+//        row = s.getRow(6);
+//        col = row.createCell(0);
+//        col.setCellValue("Name: " + mName);
 
         row = s.getRow(11);
         col = row.createCell(0);
@@ -124,9 +126,9 @@ public class ExcelManager {
         col = row.createCell(0);
         col.setCellValue("ALERTNESS DATA");
 
-        row = s.getRow(47);
-        col = row.createCell(0);
-        col.setCellValue("Sleep Altering Factors and Dreams:");
+//        row = s.getRow(47);
+//        col = row.createCell(0);
+//        col.setCellValue("Sleep Altering Factors and Dreams:");
 
         // setting the repeating titles for first row of info
         row = s.getRow(12);
@@ -218,17 +220,17 @@ public class ExcelManager {
         col.setCellStyle(cs);
         col.setCellValue("Y. How you felt overall today (1-10)");
 
-        //setting repeating titles for last row of info
-        row = s.getRow(48);
-        col = row.createCell(0);
-        col.setCellStyle(cs);
-        col.setCellValue("A. Day and Date");
-        col = row.createCell(1);
-        col.setCellStyle(cs);
-        col.setCellValue("AA. Circumstances/Events/Activities/Consumption and Time of Day");
-        col = row.createCell(3);
-        col.setCellStyle(cs);
-        col.setCellValue("AB. Number of Dreams per Night. N for nightmare/anxiety, L for lucid");
+//        //setting repeating titles for last row of info
+//        row = s.getRow(48);
+//        col = row.createCell(0);
+//        col.setCellStyle(cs);
+//        col.setCellValue("A. Day and Date");
+//        col = row.createCell(1);
+//        col.setCellStyle(cs);
+//        col.setCellValue("AA. Circumstances/Events/Activities/Consumption and Time of Day");
+//        col = row.createCell(3);
+//        col.setCellStyle(cs);
+//        col.setCellValue("AB. Number of Dreams per Night. N for nightmare/anxiety, L for lucid");
 
         // filling in first section of info for all days
         for (int n = 0; n < mDays.size(); n++){
@@ -236,7 +238,7 @@ public class ExcelManager {
             int rowNum = 13 + n;
             row = s.getRow(rowNum);
             col = row.createCell(0);
-            col.setCellStyle(csTime);
+            col.setCellStyle(cs);
             col.setCellValue(today.getDayOfWeek() + " " + today.getDate());
             col = row.createCell(1);
             col.setCellStyle(csTime);
@@ -251,20 +253,22 @@ public class ExcelManager {
             col.setCellStyle(csTime);
             col.setCellValue(today.getOutOfBed());
             col = row.createCell(5);
-            col.setCellStyle(csTime);
+            col.setCellStyle(cs);
             col.setCellValue(today.getTimeAwakeAtNight());
             col = row.createCell(6);
             col.setCellStyle(csTime);
-            col.setCellValue("FIX");
+            col.setCellValue("");
             col = row.createCell(7);
             col.setCellStyle(csTime);
-            col.setCellValue("FIX");
+            col.setCellValue("");
             col = row.createCell(8);
-            col.setCellStyle(csTime);
+            col.setCellStyle(cs);
             col.setCellValue(today.getNappedFor());
             col = row.createCell(9);
             col.setCellStyle(csAlert);
-            col.setCellValue("FIX");
+            //col.setCellType(Cell.CELL_TYPE_FORMULA);
+            //col.setCellFormula("SUM(H" + rowNum + ":I" + rowNum + ")");
+            col.setCellValue("");
             col = row.createCell(10);
             col.setCellStyle(csAlert);
             col.setCellValue(today.getGroggyFor());
@@ -300,7 +304,6 @@ public class ExcelManager {
             List<AlertnessEntry> alert = today.getAlertness();
             col = row.getCell(0);
             col.setCellStyle(cs);
-            Log.d(ExcelManager.class.toString(), col.toString() + "- CELL - " + col.getRowIndex());
             col.setCellValue(today.getDayOfWeek() + " " + today.getDate());
             for (int num = 1; num < 6; num++) {
                 col = row.getCell(num);
@@ -315,58 +318,84 @@ public class ExcelManager {
             }
             col = row.getCell(6);
             col.setCellStyle(csTime);
-            col.setCellValue("FIX");
+            int min = 6;
+            AlertnessEntry finalA = null;
+            int totalMood = 0;
+            for (AlertnessEntry a: alert){
+                if (a.getMood() < min) {
+                    min = a.getMood();
+                    finalA = a;
+                }
+                totalMood += a.getMood();
+            }
+            if(finalA != null)
+                col.setCellValue(finalA.getHour());
+
             col = row.getCell(7);
-            col.setCellStyle(csTime);
-            col.setCellValue("FIX");
+            col.setCellStyle(csAlert);
+            if (totalMood > 0) {
+                col.setCellValue((100 - totalMood)/12.0); //TODO improve formula
+            } else {
+                col.setCellValue("");
+            }
         }
+//
+//        // last section
+//        for (int n = 0; n < mDays.size(); n++){
+//            Day today = mDays.get(n);
+//            int rowNum = 49;
+//            row = s.getRow(rowNum);
+//            col = row.getCell(0);
+//            col.setCellStyle(csTime);
+//            col.setCellValue(today.getDayOfWeek() + " " + today.getDate());
+//            rowNum++;
+//        }
 
-        // last section
-        for (int n = 0; n < mDays.size(); n++){
-            Day today = mDays.get(n);
-            int rowNum = 49;
-            row = s.getRow(rowNum);
-            col = row.getCell(0);
-            col.setCellStyle(csTime);
-            col.setCellValue(today.getDayOfWeek() + " " + today.getDate());
-            rowNum++;
-        }
-
-        // averages and shit
-        row = s.getRow(20);
-        col = row.getCell(0);
-        col.setCellStyle(csb);
-        col.setCellValue("Weekly Averages (B-K)");
-        col = row.getCell(1);
-        col.setCellStyle(csb);
-        col.setCellValue("=IF(N4<N3,N3+N4,N4)");
-        col = row.getCell(2);
-        col.setCellStyle(csb);
-        col.setCellValue("=IF(O4<O3,O3+O4,O4)");
-        col = row.getCell(3);
-        col.setCellStyle(csb);
-        col.setCellValue("=AVERAGE(D14:D20)");
-        col = row.getCell(4);
-        col.setCellStyle(csb);
-        col.setCellValue("=AVERAGE(E14:E20)");
-        col = row.getCell(5);
-        col.setCellStyle(csb);
-        col.setCellValue("=AVERAGE(F14:F20)");
-        col = row.getCell(6);
-        col.setCellStyle(csb);
-        col.setCellValue("=(SUMIF(H14:H20,\">0\",G14:G20))/(COUNTIF(H14:H20,\">0\"))");
-        col = row.getCell(7);
-        col.setCellStyle(csb);
-        col.setCellValue("=(SUMIF(H14:H20,\">0\",H14:H20))/(COUNTIF(H14:H20,\">0\")");
-        col = row.getCell(8);
-        col.setCellStyle(csb);
-        col.setCellValue("=AVERAGE(I14:I20)");
-        col = row.getCell(9);
-        col.setCellStyle(csb);
-        col.setCellValue("=(SUMIF(J14:J20,\">0\",J14:J20))/(COUNTIF(J14:J20,\">0\"))");
-        col = row.getCell(8);
-        col.setCellStyle(csb);
-        col.setCellValue("=AVERAGE(K14:K20)");
+//        // averages and shit
+//        row = s.getRow(20);
+//        col = row.getCell(0);
+//        col.setCellStyle(csb);
+//        col.setCellValue("Weekly Averages (B-K)");
+//        col = row.getCell(1);
+//        col.setCellStyle(csTime);
+//        col.setCellType(Cell.CELL_TYPE_FORMULA);
+//        col.setCellFormula("IF(N4<N3,N3+N4,N4)");
+//        col = row.getCell(2);
+//        col.setCellStyle(csTime);
+//        col.setCellType(Cell.CELL_TYPE_FORMULA);
+//        col.setCellFormula("IF(O4<O3,O3+O4,O4)");
+//        col = row.getCell(3);
+//        col.setCellStyle(csTime);
+//        col.setCellType(Cell.CELL_TYPE_FORMULA);
+//        col.setCellFormula("AVERAGE(D14:D20)");
+//        col = row.getCell(4);
+//        col.setCellStyle(csTime);
+//        col.setCellType(Cell.CELL_TYPE_FORMULA);
+//        col.setCellFormula("AVERAGE(E14:E20)");
+//        col = row.getCell(5);
+//        col.setCellStyle(csTime);
+//        col.setCellType(Cell.CELL_TYPE_FORMULA);
+//        col.setCellFormula("AVERAGE(F14:F20)");
+//        col = row.getCell(6);
+//        col.setCellStyle(csTime);
+//        col.setCellType(Cell.CELL_TYPE_FORMULA);
+//        col.setCellFormula("AVERAGE(G14:G20)");
+//        col = row.getCell(7);
+//        col.setCellStyle(csTime);
+//        col.setCellType(Cell.CELL_TYPE_FORMULA);
+//        col.setCellFormula("AVERAGE(H14:H20)");
+//        col = row.getCell(8);
+//        col.setCellStyle(csTime);
+//        col.setCellType(Cell.CELL_TYPE_FORMULA);
+//        col.setCellFormula("AVERAGE(I14:I20)");
+//        col = row.getCell(9);
+//        col.setCellStyle(csTime);
+//        col.setCellType(Cell.CELL_TYPE_FORMULA);
+//        col.setCellFormula("AVERAGE(J14:J20)");
+//        col = row.getCell(8);
+//        col.setCellStyle(csb);
+//        col.setCellType(Cell.CELL_TYPE_FORMULA);
+//        col.setCellFormula("AVERAGE(K14:K20)");
 
         wb.write(out);
         out.close();
