@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/info_editor_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:paddingBottom="@dimen/dialog_info_vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:text="@string/export_data"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/dialog_save_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:background="@color/data_divider"
+        android:ems="10"
+        android:textSize="16sp"
+        android:hint="@string/enter_your_name"
+        android:inputType="textPersonName"
+        android:padding="5dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="@dimen/dialog_info_vertical"
+            android:paddingLeft="@dimen/dialog_info_horizontal"
+            android:paddingRight="@dimen/dialog_info_horizontal"
+            android:paddingTop="@dimen/dialog_info_vertical"
+            android:text="@string/starting_from"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/dialog_save_date"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:fontFamily="sans-serif"
+            android:paddingBottom="@dimen/dialog_info_vertical"
+            android:paddingLeft="@dimen/dialog_info_horizontal"
+            android:paddingRight="@dimen/dialog_info_horizontal"
+            android:paddingTop="@dimen/dialog_info_vertical"
+            android:text="05/18/16"
+            android:textAllCaps="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/light_red" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="@dimen/dialog_info_vertical"
+            android:paddingLeft="@dimen/dialog_info_horizontal"
+            android:paddingRight="@dimen/dialog_info_horizontal"
+            android:paddingTop="@dimen/dialog_info_vertical"
+            android:text="@string/days_to_export"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <com.vi.swipenumberpicker.SwipeNumberPicker
+            android:id="@+id/dialog_save_number"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dialog_info_vertical"
+            android:layout_marginLeft="@dimen/dialog_info_horizontal"
+            android:layout_marginRight="@dimen/dialog_info_horizontal"
+            android:layout_marginTop="@dimen/dialog_info_vertical"
+            android:fontFamily="sans-serif"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            app:snp_arrowColor="@android:color/white"
+            app:snp_backgroundColor="@color/data_divider"
+            app:snp_max="7"
+            app:snp_min="1"
+            app:snp_numberColor="@android:color/white"
+            app:snp_value="7" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/info_save_cancel"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif"
+            android:text="@android:string/cancel"
+            android:textAllCaps="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/info_save_update"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif"
+            android:text="@string/save"
+            android:textAllCaps="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/light_red"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

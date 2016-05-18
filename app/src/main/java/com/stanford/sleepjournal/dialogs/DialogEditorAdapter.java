@@ -122,22 +122,37 @@ public class DialogEditorAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @Override
         public void onClick(View v) {
             Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
             TimePickerDialog picker = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    String hour = "" + leftPad(hourOfDay) + ":" + leftPad(minute);
-                    mActionButton.setText(hour);
-                    mListener.itemClicked(mItem, hour);
+                    String time = get12HrTime(hourOfDay, minute);
+                    mActionButton.setText(time);
+                    mListener.itemClicked(mItem, time);
                 }
-            }, hour, minute, false);
+            }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), false);
             picker.show();
+        }
+
+        private String get12HrTime(int hour, int minute){
+            String amPm = "";
+
+            Calendar datetime = Calendar.getInstance();
+            datetime.set(Calendar.HOUR_OF_DAY, hour);
+            datetime.set(Calendar.MINUTE, minute);
+
+            if (datetime.get(Calendar.AM_PM) == Calendar.AM)
+                amPm = "AM";
+            else if (datetime.get(Calendar.AM_PM) == Calendar.PM)
+                amPm = "PM";
+
+            int hours = (datetime.get(Calendar.HOUR) == 0) ? 12 : datetime.get(Calendar.HOUR);
+            int minutes = datetime.get(Calendar.MINUTE);
+            return leftPad(hours) + ":" + leftPad(minutes) + " " + amPm;
         }
 
     }
 
-    public String leftPad(int val){
+    public static String leftPad(int val){
         if(val < 10) return "0" + val;
         return String.valueOf(val);
     }

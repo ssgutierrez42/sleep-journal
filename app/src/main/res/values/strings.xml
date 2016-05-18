@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sleep</string>
+    <string name="app_name">Sleep Journal</string>
     <string name="made_in_stanford">Made in Stanford with ❤️ (more info)</string>
 
     <string name="format_quote">\"%1$s\"</string>
@@ -26,4 +26,9 @@
     <string name="update">Update</string>
     <string name="dialog_info_asleep">Asleep:</string>
     <string name="dialog_info_awake">Awake</string>
+    <string name="export_data">Export Data</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="days_to_export"># of days to export</string>
+    <string name="starting_from">Get data starting from</string>
+    <string name="save">Save</string>
 </resources>

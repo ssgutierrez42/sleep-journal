@@ -26,14 +26,19 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
-        <receiver android:process=":remote" android:name=".AlertnessAlarm"/>
-        <receiver android:name=".StartReceiver">
+        <activity
+            android:name=".dialogs.SaveDialog"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+        <receiver android:process=":NotificationService" android:name=".receivers.AlertnessNotificationReceiver"/>
+        <receiver android:process=":NotificationService" android:name=".receivers.AlertnessFeedBackProcessor"/>
+        <receiver android:name=".receivers.OnBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
-        <service
-            android:name=".NotificationService"
+        <service android:name=".receivers.NotificationService"
             android:enabled="true"
             android:process=":NotificationService" >
         </service>

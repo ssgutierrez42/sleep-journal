@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:text="How alert are you? (12PM-2PM)"
+        android:textAppearance="?android:attr/textAppearanceMediumInverse"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="Did you know that Annina hasn't sent me the quotes yet?"
+        android:textAppearance="?android:attr/textAppearanceSmallInverse" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/item_notification_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_mood_1_small"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:text="1"
+            android:textAppearance="?android:attr/textAppearanceSmallInverse" />
+
+        <TextView
+            android:id="@+id/item_notification_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_mood_2_small"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="2"
+            android:textAppearance="?android:attr/textAppearanceSmallInverse" />
+
+        <TextView
+            android:id="@+id/item_notification_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_mood_3_small"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="3"
+            android:textAppearance="?android:attr/textAppearanceSmallInverse" />
+
+        <TextView
+            android:id="@+id/item_notification_4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_mood_4_small"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="4"
+            android:textAppearance="?android:attr/textAppearanceSmallInverse" />
+
+        <TextView
+            android:id="@+id/item_notification_5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_mood_5_small"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="5"
+            android:textAppearance="?android:attr/textAppearanceSmallInverse" />
+
+        <TextView
+            android:id="@+id/item_notification_6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_mood_6_small"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="6"
+            android:textAppearance="?android:attr/textAppearanceSmallInverse" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/app_name"
+        android:textAppearance="?android:attr/textAppearanceSmallInverse"
+        android:textSize="12sp" />
+
+</LinearLayout>

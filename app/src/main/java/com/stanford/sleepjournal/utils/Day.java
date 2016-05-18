@@ -131,4 +131,9 @@ public class Day extends SugarRecord {
         return AlertnessEntry.find(AlertnessEntry.class, "date = ?", date);
     }
 
+    @Override
+    public String toString(){
+        return date;
+    }
+
 }

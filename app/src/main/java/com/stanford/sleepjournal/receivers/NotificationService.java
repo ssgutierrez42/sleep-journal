@@ -1,16 +1,17 @@
-package com.stanford.sleepjournal;
+package com.stanford.sleepjournal.receivers;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 /**
  * Created by Santiago Gutierrez on 5/16/16.
  */
 public class NotificationService extends Service {
 
-    AlertnessAlarm alarm = new AlertnessAlarm();
+    AlertnessNotificationReceiver alarm = new AlertnessNotificationReceiver();
     public void onCreate(){
         super.onCreate();
     }

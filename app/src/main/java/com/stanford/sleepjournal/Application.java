@@ -3,6 +3,7 @@ package com.stanford.sleepjournal;
 import android.content.Intent;
 
 import com.orm.SugarContext;
+import com.stanford.sleepjournal.receivers.NotificationService;
 import com.stanford.sleepjournal.utils.Day;
 
 /**

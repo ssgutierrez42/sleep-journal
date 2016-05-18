@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stanford.sleepjournal.dialogs.DataEditorDialog;
+import com.stanford.sleepjournal.dialogs.SaveDialog;
 import com.stanford.sleepjournal.fragments.FragmentPageAdapter;
 import com.stanford.sleepjournal.utils.Day;
 import com.stanford.sleepjournal.utils.ExcelManager;
@@ -22,6 +23,8 @@ import com.stanford.sleepjournal.utils.ExcelManager;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+import static com.stanford.sleepjournal.dialogs.DialogEditorAdapter.leftPad;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, OnDateChangeListener {
 
@@ -48,13 +51,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         assert saveButton != null;
         saveButton.setOnClickListener(this);
 
+        ImageView settings = (ImageView) findViewById(R.id.app_bar_settings);
+        assert settings != null;
+        settings.setOnClickListener(this);
+
         ImageButton editButton = (ImageButton) findViewById(R.id.main_data_edit);
         assert editButton != null;
         editButton.setOnClickListener(this);
-
-        TextView madeInStanford = (TextView) findViewById(R.id.main_made_in_stanford);
-        assert madeInStanford != null;
-        madeInStanford.setOnClickListener(this);
 
         LinearLayout mainDataEdit = (LinearLayout) findViewById(R.id.main_data_tap_edit);
         assert mainDataEdit != null;
@@ -70,12 +73,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loadDay(calendar);
     }
 
+    public static String getKeyFromCalendar(Calendar calendar){
+        return leftPad(calendar.get(Calendar.MONTH)+1) + "/" + calendar.get(Calendar.DAY_OF_MONTH) + "/" + calendar.get(Calendar.YEAR);
+    }
+
     private void loadDay(Calendar calendar) {
         String month = calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.US);
         String date = month + " " + getDayOfMonthSuffix(calendar.get(Calendar.DAY_OF_MONTH)) + ", " + calendar.get(Calendar.YEAR);
         mDateText.setText(date);
 
-        String dateKey = calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.DAY_OF_MONTH) + "/" + calendar.get(Calendar.YEAR);
+        String dateKey = getKeyFromCalendar(calendar);
+        Log.d(MainActivity.class.toString(), dateKey);
         List<Day> finds = Day.find(Day.class, "date = ?", dateKey);
         Day day;
         if (finds.isEmpty()) {
@@ -158,19 +166,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(MainActivity.this, DataEditorDialog.class);
                 startActivityForResult(intent, DataEditorDialog.REQUEST_DATE_DATA);
                 break;
-            case R.id.main_made_in_stanford:
-                Toast.makeText(getApplicationContext(), "More info coming soon", Toast.LENGTH_SHORT).show();
-                break;
             case R.id.app_bar_save:
-                try {
-                    ExcelManager manager = new ExcelManager(getApplicationContext());
-                    manager.createSheet();
-                    Toast.makeText(getApplicationContext(), "Saving data test successful.", Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Failed saving.", Toast.LENGTH_SHORT).show();
-                }
-
+                Intent save = new Intent(MainActivity.this, SaveDialog.class);
+                startActivity(save);
+                break;
+            case R.id.app_bar_settings:
+                Toast.makeText(getApplicationContext(), "More info coming soon", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
