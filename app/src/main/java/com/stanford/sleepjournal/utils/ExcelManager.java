@@ -40,9 +40,10 @@ public class ExcelManager {
 
 
     // see https://poi.apache.org/spreadsheet/how-to.html#sxssf
-    public void createSheet() throws IOException{
-        Log.d(ExcelManager.class.toString(), getWriteLocation());
-        FileOutputStream out = new FileOutputStream(getWriteLocation());
+    public String createSheet() throws IOException{
+        String writeLocation = getWriteLocation();
+        Log.d(ExcelManager.class.toString(), writeLocation);
+        FileOutputStream out = new FileOutputStream(writeLocation);
         Workbook wb = new HSSFWorkbook();
         Sheet s = wb.createSheet();
 
@@ -399,11 +400,12 @@ public class ExcelManager {
 
         wb.write(out);
         out.close();
+        return writeLocation;
     }
 
     //to be used to change file name depending on date
     private String getWriteLocation(){
-        return mContext.getExternalFilesDir(null) + File.separator + "workbook.xls";
+        return mContext.getExternalFilesDir(null) + File.separator + "sleep_journal_" + mDays.get(0).getDate().replaceAll("/","") + "_" + System.currentTimeMillis() + ".xls";
     }
 
 }

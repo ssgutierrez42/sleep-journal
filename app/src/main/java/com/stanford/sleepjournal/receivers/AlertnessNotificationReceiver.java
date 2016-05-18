@@ -120,7 +120,6 @@ public class AlertnessNotificationReceiver extends BroadcastReceiver {
         return PendingIntent.getBroadcast(context, mood, intent, 0);
     }
 
-    //TODO change to inexact repeating
     public void setAlarm(Context context){
         AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(context, AlertnessNotificationReceiver.class);

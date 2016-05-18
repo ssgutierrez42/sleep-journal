@@ -31,4 +31,5 @@
     <string name="days_to_export"># of days to export</string>
     <string name="starting_from">Get data starting from</string>
     <string name="save">Save</string>
+    <string name="author_note">Created by Anninna Hanlon and Santiago Gutierrez for PSYC-135. \n\nAll data used in the app is from Dr. Dement\'s Sleep and Dreams.</string>
 </resources>

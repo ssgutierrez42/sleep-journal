@@ -31,6 +31,11 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+        <activity
+            android:name=".dialogs.SettingsDialog"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
         <receiver android:process=":NotificationService" android:name=".receivers.AlertnessNotificationReceiver"/>
         <receiver android:process=":NotificationService" android:name=".receivers.AlertnessFeedBackProcessor"/>
         <receiver android:name=".receivers.OnBootReceiver">

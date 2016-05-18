@@ -53,5 +53,4 @@ public class AlertnessFeedBackProcessor extends BroadcastReceiver {
         return Constants.HOURS[hourOfDay/2];
     }
 
-
 }

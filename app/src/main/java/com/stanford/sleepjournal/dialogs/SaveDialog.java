@@ -1,7 +1,11 @@
 package com.stanford.sleepjournal.dialogs;
 
 import android.app.DatePickerDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +22,7 @@ import com.stanford.sleepjournal.utils.ExcelManager;
 import com.vi.swipenumberpicker.OnValueChangeListener;
 import com.vi.swipenumberpicker.SwipeNumberPicker;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -107,7 +112,19 @@ public class SaveDialog extends AppCompatActivity implements View.OnClickListene
 
                 try {
                     ExcelManager manager = new ExcelManager(getApplicationContext(), requestedDays);
-                    manager.createSheet();
+                    String saveLocation = manager.createSheet();
+
+                    File xls = new File(saveLocation);
+                    Uri path = Uri.fromFile(xls);
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(path, "application/vnd.ms-excel");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    try {
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        Toast.makeText(getApplicationContext(), "No Application available to view .XLS", Toast.LENGTH_SHORT).show();
+                    }
                     Toast.makeText(getApplicationContext(), "Saving data test successful.", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     e.printStackTrace();

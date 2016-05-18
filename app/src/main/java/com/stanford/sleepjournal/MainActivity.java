@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.stanford.sleepjournal.dialogs.DataEditorDialog;
 import com.stanford.sleepjournal.dialogs.SaveDialog;
+import com.stanford.sleepjournal.dialogs.SettingsDialog;
 import com.stanford.sleepjournal.fragments.FragmentPageAdapter;
 import com.stanford.sleepjournal.utils.Day;
 import com.stanford.sleepjournal.utils.ExcelManager;
@@ -187,7 +188,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(save);
                 break;
             case R.id.app_bar_settings:
-                Toast.makeText(getApplicationContext(), "More info coming soon", Toast.LENGTH_SHORT).show();
+                Intent settings = new Intent(MainActivity.this, SettingsDialog.class);
+                startActivity(settings);
                 break;
         }
     }
