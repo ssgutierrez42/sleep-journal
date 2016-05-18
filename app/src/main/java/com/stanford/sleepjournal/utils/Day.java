@@ -48,6 +48,7 @@ public class Day extends SugarRecord {
     }
 
     public int getTimeAwakeAtNight() {
+        if(timeAwakeNight == -1) return 0;
         return timeAwakeNight;
     }
 
@@ -104,6 +105,7 @@ public class Day extends SugarRecord {
     }
 
     public int getGroggyFor() {
+        if(groggyFor == -1) return 0;
         return groggyFor;
     }
 
@@ -112,6 +114,7 @@ public class Day extends SugarRecord {
     }
 
     public int getNappedFor() {
+        if(nappedFor == -1) return 0;
         return nappedFor;
     }
 
@@ -120,6 +123,7 @@ public class Day extends SugarRecord {
     }
 
     public int getSleptFor() {
+        if(sleptFor == -1) return 0;
         return sleptFor;
     }
 

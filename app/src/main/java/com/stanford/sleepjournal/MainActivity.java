@@ -1,5 +1,7 @@
 package com.stanford.sleepjournal;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView mDateText;
     private ViewPager mViewPager;
-    private Calendar mLastSelectedDay;
+    private Calendar mLastSelectedDay = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,19 +101,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView asleep = (TextView) findViewById(R.id.main_data_asleep);
         TextView awake = (TextView) findViewById(R.id.main_data_awake);
-        TextView slept_for = (TextView) findViewById(R.id.main_data_slept_for);
+//        TextView slept_for = (TextView) findViewById(R.id.main_data_slept_for);
         TextView napped_for = (TextView) findViewById(R.id.main_data_napped_for);
         TextView groggy_for = (TextView) findViewById(R.id.main_data_groggy_for);
 
         assert asleep != null;
         assert awake != null;
-        assert slept_for != null;
+//        assert slept_for != null;
         assert napped_for != null;
         assert groggy_for != null;
 
         asleep.setText(getValue(day.getAsleep(), R.string.format_asleep));
         awake.setText(getValue(day.getAwake(), R.string.format_awake));
-        slept_for.setText(getValue(day.getSleptFor(), R.string.format_slept_for));
+//        slept_for.setText(getValue(day.getSleptFor(), R.string.format_slept_for));
         napped_for.setText(getValue(day.getNappedFor(), R.string.format_napped_for));
         groggy_for.setText(getValue(day.getGroggyFor(), R.string.format_groggy_for));
 
@@ -144,6 +146,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             default:
                 return n + "th";
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mLastSelectedDay != null)
+            loadDay(mLastSelectedDay); //reload
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.cancelAll();
     }
 
     @Override
