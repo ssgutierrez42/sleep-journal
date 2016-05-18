@@ -63,15 +63,19 @@ public class SaveDialog extends AppCompatActivity implements View.OnClickListene
     private List<Day> getRequestedDays(){
         List<Day> result = new ArrayList<>();
 
-//        Log.d(SaveDialog.class.toString(), "Picker Val: " + mPicker.getValue());
-        for(int i = 0; i < mPicker.getValue(); i++){
-            Calendar instance = mSelectedDay;
-            instance.set(mSelectedDay.get(Calendar.YEAR), mSelectedDay.get(Calendar.MONTH), mSelectedDay.get(Calendar.DAY_OF_MONTH)+i);
-            List<Day> finds = Day.find(Day.class, "date = ?", MainActivity.getKeyFromCalendar(instance));
+        Log.d(SaveDialog.class.toString(), "Looking for: " + MainActivity.getKeyFromCalendar(mSelectedDay));
+        List<Day> current = Day.find(Day.class, "date = ?", MainActivity.getKeyFromCalendar(mSelectedDay));
+        if(!current.isEmpty()) result.add(current.get(0));
+
+        for(int i = 0; i < mPicker.getValue()-1; i++){
+            mSelectedDay.add(Calendar.DAY_OF_MONTH, 1);
+
+            Log.d(SaveDialog.class.toString(), "Looking for: " + MainActivity.getKeyFromCalendar(mSelectedDay));
+            List<Day> finds = Day.find(Day.class, "date = ?", MainActivity.getKeyFromCalendar(mSelectedDay));
             if(!finds.isEmpty()) result.add(finds.get(0));
         }
 
-//        Log.d(SaveDialog.class.toString(), "Result Size: " + result.size());
+        Log.d(SaveDialog.class.toString(), "Result Size: " + result.size());
         return result;
     }
 
@@ -83,7 +87,7 @@ public class SaveDialog extends AppCompatActivity implements View.OnClickListene
                 DatePickerDialog dialog = new DatePickerDialog(SaveDialog.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        String date = leftPad(++monthOfYear) + "/" + leftPad(dayOfMonth) + "/" + leftPad(year);
+                        String date = leftPad(monthOfYear+1) + "/" + leftPad(dayOfMonth) + "/" + leftPad(year);
                         mDateHolder.setText(date);
                         mSelectedDay = Calendar.getInstance();
                         mSelectedDay.set(year, monthOfYear, dayOfMonth);
