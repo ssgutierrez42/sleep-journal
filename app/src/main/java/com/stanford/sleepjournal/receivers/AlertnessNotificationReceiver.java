@@ -124,7 +124,7 @@ public class AlertnessNotificationReceiver extends BroadcastReceiver {
         AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(context, AlertnessNotificationReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000*60*60*2 , pi);//Millisec * Second * Minute * Hour
+        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000*60*60*2, pi);//Millisec * Second * Minute * Hour
     }
 
     public void cancelAlarm(Context context){
